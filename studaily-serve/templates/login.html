@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <script src="/static/js/jquery-1.11.1.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+</head>
+<body>
+<div class="con">
+    <div class="title">
+        <h1>学生日报管理系统</h1><br>
+        <span>知行</span><span>·</span><span>弘毅</span>
+    </div>
+    <form action="/checkdata" method="post">
+        <p>密码登陆</p>
+        <input type="text" name="username" placeholder="请输入手机号" class="input"><br><br>
+        <input type="password" name="password" placeholder="请输入密码" class="input"><br><br>
+        <!--<label>日报系统<input type="radio" name="sys" value="0" class="sys" checked></label>-->
+        <!--<label>考试系统<input type="radio" name="sys" value="1" class="sys"></label>-->
+        <div style="margin: 10px 0;display: flex;justify-content: space-between">
+            <input type="text" name="code" placeholder="请输入验证码" class="code">
+            <iframe src="http://127.0.0.1:5000/verification" frameborder="0"width="120" height="40"></iframe>
+            <a id="refresh" href="javascript:;">换一张</a>
+            <!--<img src="http://localhost:5000/verification" onclick="this.src='http://localhost:5000/verification?'+Math.random()" alt="">-->
+        </div>
+        <div class="btns">
+            <input type="submit" value="登录" class="btn">
+            <div><a href="/registe" class="a">免费注册</a></div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<style>
+    html,body{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    .con{
+        width: 100%;
+        height: 100%;
+        background: url("../static/img/architecture-backpack-black-and-white-1393773.jpg")no-repeat center;
+        background-size: cover;
+        padding-top: 80px;
+        box-sizing: border-box;
+        min-height: 340px;
+        color: #373d41;
+
+    }
+    form{
+        width: 350px;
+        margin: 100px 150px 0 0 ;
+        padding: 20px;
+        float: right;
+        background-color: #fff;
+    }
+    .input{
+        width: 330px;
+        margin: 0 auto;
+        border: 1px solid #d7d8d9;
+        height: 42px;
+        outline: none;
+        padding-left: 10px;
+        font-size: 12px;
+    }
+    .btn{
+        width: 340px;
+        margin: 0 auto;
+        height: 42px;
+        line-height: 42px;
+        outline: none;
+        color: #fff;
+        background: #00c1de;
+    }
+    .btns{
+        width: 100%;
+        margin: 30px 0;
+    }
+    .a{
+        color: #9b9ea0;
+        text-decoration: none;
+        font: 400 12px arial;
+        font-family: PingFang SC,Helvetica,Arial,Verdana,Microsoft YaHei,serif!important;
+        float: right;
+        margin: 20px;
+    }
+    .title{
+        margin: 110px 330px;
+    }
+    .title,.title h1{
+        width: 300px;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        text-align: center;
+        float: left;
+        font-size: 30px;
+        color: #FFFFFF;
+        line-height: 36px;
+        margin-bottom: 19px;
+        font-weight: bold;
+    }
+    .title span{
+            font-size: 14px;
+            color: #FFFFFF;
+            letter-spacing: 0.47px;
+            line-height: 30px;
+    }
+
+</style>
+<script>
+    $(function () {
+        $('form').validate({
+            rules:{
+                username:{
+                    required: true,
+					minlength: 2
+                },
+				password: {
+					required: true,
+					minlength: 6
+				}
+            },
+            messages:{
+                username:{
+                    required: '必填',
+					minlength: '长度不能少于2位'
+                },
+				password: {
+					required: '必填',
+					minlength: '长度不能少于6位'
+				}
+            }
+        });
+        $('btn').click=function () {
+            if (!$('.input').val()) {
+                alert('请输入用户名或密码！')
+            }
+            if (!$('.code').val()) {
+                alert('请输入验证码！')
+            }
+        }
+    })
+
+    document.querySelector('#refresh').onclick=function () {
+        document.querySelector('iframe').src='http://127.0.0.1:5000/verification?'+Math.random()
+    }
+</script>

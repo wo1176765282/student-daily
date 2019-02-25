@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>name</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        {% item in data %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.date}}</td>
+            <td>删除</td>
+        </tr>
+        {%end for%}
+    </table>
+</body>
+<script>
+    let data=[]
+    fetch('/daily').then(function (e) {
+        return e.json()
+    }).then((e)=>{
+        console.log(e);
+        data.push(e)
+    })
+</script>
+</html>

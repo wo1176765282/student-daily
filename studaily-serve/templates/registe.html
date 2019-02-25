@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <script src="/static/js/jquery-1.11.1.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+</head>
+<body>
+<div class="con">
+    <div class="title">
+        <h1>学生日报管理系统</h1>
+        <span>知行</span><span>·</span><span>弘毅</span>
+    </div>
+    <form action="/adduser" method="post">
+        <p>免费注册会员</p>
+        <input type="text" name="username" id="username" placeholder="请输入用户名"><br>
+        <span class="h">用户名已存在</span><br><br>
+        <input type="password" name="password" id="password" placeholder="请输入密码"><br><br>
+        <input type="password" name="password1" placeholder="二次输入密码"><br><br>
+        <input type="text" name="phone" placeholder="请输入手机号"><br><br>
+        <div class="btns">
+            <input type="submit" value="注册" class="btn" disabled>
+            <a href="/login" class="a">已有会员？请登录</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<style>
+    html,body{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    .con{
+        width: 100%;
+        height: 100%;
+        background: url("../static/img/architecture-backpack-black-and-white-1393773.jpg")no-repeat center;
+        background-size: cover;
+        padding-top: 80px;
+        box-sizing: border-box;
+        min-height: 340px;
+        color: #373d41;
+    }
+    form{
+        width: 400px;
+        margin: 60px 150px 0 0 ;
+        padding: 20px;
+        float: right;
+        background-color: #fff;
+        /*opacity: .9;*/
+    }
+    input{
+        width: 330px;
+        margin: 0 auto;
+        border: 1px solid #d7d8d9;
+        height: 42px;
+        outline: none;
+        padding-left: 10px;
+        font-size: 12px;
+    }
+    .btn{
+        width: 340px;
+        margin: 0 auto;
+        height: 42px;
+        line-height: 42px;
+        outline: none;
+        color: #fff;
+        background: #00c1de;
+    }
+    .btns{
+        width: 100%;
+        margin: 30px 0;
+    }
+    .a{
+        color: #9b9ea0;
+        text-decoration: none;
+        font: 400 12px arial;
+        font-family: PingFang SC,Helvetica,Arial,Verdana,Microsoft YaHei,serif!important;
+        float: right;
+        margin: 20px 80px;
+    }
+    .title{
+        margin: 110px 0 0 330px;
+    }
+    .title,.title h1{
+        width: 300px;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        text-align: center;
+        float: left;
+        font-size: 30px;
+        color: #FFFFFF;
+        line-height: 36px;
+        margin-bottom: 19px;
+        font-weight: bold;
+    }
+    .title span{
+            font-size: 14px;
+            color: #FFFFFF;
+            letter-spacing: 0.47px;
+            line-height: 30px;
+    }
+    .h{
+        display: none;
+        color: #dd6161;
+        font-size: 12px;
+        line-height: 20px;
+    }
+</style>
+<script>
+    $(function () {
+        $.ajax({
+            url:'/hasname',
+            success:(data)=> {
+                if (data){
+                    attr=JSON.parse(data);
+                    input=document.querySelector('#username');
+                    input.oninput=function(e) {
+                        hasname=false;
+                        for (var i in attr){
+                            if(input.value==attr[i].name){
+                                hasname=true
+                            }else{
+                                $(".btn").removeAttr("disabled")
+                            }
+                        }
+                        if(hasname){
+                            $('.h').css('display','block');
+                        }else {
+                            $('.h').css('display','none');
+                        }
+                    }
+                }
+            }
+        });
+        $('form').validate({
+            rules:{
+                username:{
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                password1: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#password"
+                },
+                phone: {
+                    required: true,
+                    minlength: 11,
+                }
+            },
+            messages:{
+                username:{
+                    required: '必填',
+                    minlength: '长度不能少于2位'
+                },
+                password: {
+                    required: '必填',
+                    minlength: '长度不能少于6位'
+                },
+                password1: {
+                    required: '必填',
+                    minlength: '长度不能少于6位',
+                    equalTo: "与前一次密码不一致"
+                },
+                phone: {
+                    required: '必填',
+                    minlength: '长度不能少于11位'
+                },
+            }
+        })
+        $('input').focus(function (e) {
+            $("form").css('opacity',".9")
+        })
+    })
+</script>
